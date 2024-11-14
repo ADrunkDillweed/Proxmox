@@ -131,7 +131,7 @@ function exit-script() {
 
 function default_settings() {
   VMID="$NEXTID"
-  FORMAT=",efitype=8m"
+  FORMAT=",efitype=4m"
   MACHINE=""
   DISK_CACHE=""
   DISK_SIZE="80"
@@ -385,7 +385,7 @@ nfs | dir)
   DISK_EXT=".qcow2"
   DISK_REF="$VMID/"
   DISK_IMPORT="-format qcow2"
-  DISK_SIZE="$80"
+  DISK_SIZE="80"
   THIN=""
   ;;
 btrfs)
