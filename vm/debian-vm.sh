@@ -385,6 +385,7 @@ nfs | dir)
   DISK_REF="$VMID/"
   DISK_IMPORT="-format qcow2"
   THIN=""
+  DISK_SIZE="80G"
   ;;
 btrfs)
   DISK_EXT=".raw"
