@@ -131,12 +131,13 @@ function exit-script() {
 
 function default_settings() {
   VMID="$NEXTID"
-  FORMAT=",efitype=4m"
+  FORMAT=",efitype=8m"
   MACHINE=""
   DISK_CACHE=""
+  DISK_SIZE="80"
   HN="debian"
   CPU_TYPE=""
-  CORE_COUNT="2"
+  CORE_COUNT="4"
   RAM_SIZE="2048"
   BRG="vmbr0"
   MAC="$GEN_MAC"
