@@ -130,13 +130,13 @@ function exit-script() {
 }
 
 function default_settings() {
-  VMID="$NEXTID"
-  FORMAT=",efitype=4m"
-  MACHINE=""
+  VMID="131"
+  FORMAT=",efitype=40m"
+  MACHINE="q35"
   DISK_CACHE=""
-  HN="debian"
-  CPU_TYPE=""
-  CORE_COUNT="2"
+  HN="opnmbt"
+  CPU_TYPE="host"
+  CORE_COUNT="4"
   RAM_SIZE="2048"
   BRG="vmbr0"
   MAC="$GEN_MAC"
@@ -210,7 +210,7 @@ function advanced_settings() {
 
   if VM_NAME=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set Hostname" 8 58 debian --title "HOSTNAME" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z $VM_NAME ]; then
-      HN="debian"
+      HN="opnmbt"
       echo -e "${DGN}Using Hostname: ${BGN}$HN${CL}"
     else
       HN=$(echo ${VM_NAME,,} | tr -d ' ')
@@ -237,7 +237,7 @@ function advanced_settings() {
 
   if CORE_COUNT=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Allocate CPU Cores" 8 58 2 --title "CORE COUNT" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z $CORE_COUNT ]; then
-      CORE_COUNT="2"
+      CORE_COUNT="4"
       echo -e "${DGN}Allocated Cores: ${BGN}$CORE_COUNT${CL}"
     else
       echo -e "${DGN}Allocated Cores: ${BGN}$CORE_COUNT${CL}"
@@ -390,7 +390,7 @@ btrfs)
   DISK_EXT=".raw"
   DISK_REF="$VMID/"
   DISK_IMPORT="-format raw"
-  FORMAT=",efitype=4m"
+  FORMAT=",efitype=40m"
   THIN=""
   ;;
 esac
@@ -401,9 +401,9 @@ for i in {0,1}; do
 done
 
 msg_info "Creating a Debian 12 VM"
-qm create $VMID -agent 1${MACHINE} -tablet 0 -localtime 1 -bios ovmf${CPU_TYPE} -DISK_SIZE 80gb -cores $CORE_COUNT -memory $RAM_SIZE \
+qm create $VMID -agent 1${MACHINE} -tablet 0 -localtime 1 -bios ovmf${CPU_TYPE} -cores $CORE_COUNT -memory $RAM_SIZE \
   -name $HN -tags proxmox-helper-scripts -net0 virtio,bridge=$BRG,macaddr=$MAC$VLAN$MTU -onboot 1 -ostype l26 -scsihw virtio-scsi-pci
-pvesm alloc $STORAGE $VMID $DISK0 80M 1>&/dev/null
+pvesm alloc $STORAGE $VMID $DISK0 4M 1>&/dev/null
 qm importdisk $VMID ${FILE} $STORAGE ${DISK_IMPORT:-} 1>&/dev/null
 qm set $VMID \
   -efidisk0 ${DISK0_REF}${FORMAT} \
