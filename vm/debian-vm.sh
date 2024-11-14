@@ -132,11 +132,11 @@ function exit-script() {
 function default_settings() {
   VMID="131"
   FORMAT=",efitype=40m"
-  MACHINE="q35"
+  MACHINE=""
   DISK_CACHE=""
   HN="opnmbt"
   CPU_TYPE="host"
-  CORE_COUNT="4"
+  CORE_COUNT=""
   RAM_SIZE="2048"
   BRG="vmbr0"
   MAC="$GEN_MAC"
@@ -177,8 +177,8 @@ function advanced_settings() {
   done
 
   if MACH=$(whiptail --backtitle "Proxmox VE Helper Scripts" --title "MACHINE TYPE" --radiolist --cancel-button Exit-Script "Choose Type" 10 58 2 \
-    "i440fx" "Machine i440fx" ON \
-    "q35" "Machine q35" OFF \
+    "q35" "Machine q35" ON \
+    "i440fx" "Machine i440fx" OFF \
     3>&1 1>&2 2>&3); then
     if [ $MACH = q35 ]; then
       echo -e "${DGN}Using Machine Type: ${BGN}$MACH${CL}"
